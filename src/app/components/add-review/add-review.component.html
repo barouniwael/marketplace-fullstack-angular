@@ -1,0 +1,24 @@
+<form #messageForm="ngForm" >
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Leave a Message</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-6"></div>
+           
+                
+        <div class="form-group">
+            <label for="review-message" 
+               >message</label>
+            <textarea class="form-control" id="review-message" rows="8"
+                required [(ngModel)]="message.message"  name="message"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer button">
+        <button type="submit" class="btn"   (click)="addMessage()" data-bs-dismiss="modal" >Submit Message</button>
+    </div>
+    </div>
+</form>

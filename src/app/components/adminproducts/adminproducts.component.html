@@ -1,0 +1,103 @@
+<!-- 
+<table class="table " style="width: 80%; margin-left:auto;margin-right:auto;">
+    <thead class="bg-light">
+      <tr>
+        <th>Name</th>
+        <th>category</th>
+        <th>price</th>
+        <th>date</th>
+        
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>
+          <div class="d-flex align-items-center">
+            
+            <div class="ms-3">
+              <p class="fw-bold mb-1">{{product.name}}</p>
+             
+            </div>
+          </div>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">{{product.category}}</p>
+         
+        </td> <td>
+          <p class="fw-normal mb-1">{{product.price}}</p>
+         
+        </td>
+        <td>
+          <p class="fw-bold mb-1">{{product.time}}</p>
+        </td>
+     
+        <td >
+          <button type="button" class="btn btn-danger " style="display: block;
+          margin: auto;" (click)="deleteProduct(product.pId)">
+            delete
+          </button>
+        </td>
+      </tr>
+      
+    </tbody>
+    
+    
+  </table> 
+  -->
+
+  <div class="example-container mat-elevation-z8 mt-4" style="width: 80%; margin:auto">
+    <mat-form-field appearance="outline">
+      <mat-label></mat-label>
+      <input matInput placeholder="search by name" (keyup)="applyFilter($event)">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+     
+    </mat-form-field>
+    <mat-table class=" mat-elevation-z8" [dataSource]="products |filtre:term |paginate: { itemsPerPage: 4, currentPage: p }  "  matSort>
+  
+      <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef  mat-sort-header>product</mat-header-cell>
+          <mat-cell *matCellDef="let product">{{product.name}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="category">
+          <mat-header-cell *matHeaderCellDef mat-sort-header >category</mat-header-cell>
+          <mat-cell class="description-cell"
+                    *matCellDef="let product">{{product.category}}</mat-cell>
+  
+      </ng-container>
+  
+      <ng-container matColumnDef="price">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>price</mat-header-cell>
+          <mat-cell class="duration-cell"
+                    *matCellDef="let product">{{product.price}}</mat-cell>
+      </ng-container> 
+       <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>date</mat-header-cell>
+          <mat-cell class="duration-cell"
+                    *matCellDef="let product">{{product.time}}</mat-cell>
+      </ng-container> <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>status</mat-header-cell>
+          <mat-cell class="duration-cell"
+                    *matCellDef="let product" [ngStyle]="{'color': product.status == 'pending'? 'red' : 'green'}">{{product.status}}</mat-cell>
+      </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>action</mat-header-cell>
+          <mat-cell class="duration-cell"   *matCellDef="let product">
+            <button mat-icon-button type="button" class="btn btn-danger " style="display: block; " (click)="deleteproduct(product.pId)">
+                   delete
+                    </button>  <button mat-icon-button type="button" class="btn btn-info m-3 " style="display: block; " (click)="allowProduct(product.pId)">
+                   allow
+                    </button>
+                  </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+   
+  </mat-table>
+  <!-- <mat-paginator [pageSizeOptions]="[2]" showFirstLastButtons #paginator></mat-paginator> -->
+   <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>

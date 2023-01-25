@@ -1,0 +1,21 @@
+
+<div class="container mt-4">
+    <table>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>product</th>
+          <th>phone</th>
+          <th>actions</th>
+        </tr>
+        <tbody>
+            <tr *ngFor="let order of orders">
+                <th>{{order.id}}</th>
+                <th>{{order.name}}</th>
+                <th><a (click)="goToSingleProduct(order.pId)">{{order.product}}</a></th>
+                <th>{{order.phone}}</th>
+                <th><button class="btn btn-danger" (click)="deleteOrder(order.id)">delete</button></th>
+            </tr>
+        </tbody>
+      </table>
+    </div>

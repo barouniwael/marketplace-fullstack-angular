@@ -1,0 +1,52 @@
+<div class="navbar-cart">
+
+    <div class="cart-items">
+        <a href=""
+            class="main-btn">
+            <i class="lni lni-cart"></i>
+            <span class="total-items">{{N}}</span>
+        </a>
+
+        <div class="shopping-item">
+            <div class="dropdown-cart-header">
+                <span> {{N}} Items</span>
+                <a routerLink="cartlist">View Cart</a>
+            </div>
+            <ul class="shopping-list">
+                <li *ngFor="let item of p">
+                    <a href="javascript:void(0)"
+                        class="remove"
+                        title="Remove this
+                        item"><i class="lni
+                            lni-close"></i></a>
+                    <div class="cart-img-head">
+                        <a class="cart-img"><img
+                                src="assets/images/header/cart-items/item1.jpg"
+                                alt="#"></a>
+                    </div>
+                    <div class="content">
+                        <h4><a
+                               routerLink="goToSingleProduct(id)">
+                              {{item.name}}
+                                </a></h4>
+                        <p class="quantity">
+                            <span
+                                class="amount">  {{item.price}}</span></p>
+                    </div>
+                </li>
+
+            </ul>
+            <div class="bottom">
+                <div class="total">
+                    <span>Total</span>
+                    <!-- <span class="total-amount">{{totale}}</span> -->
+                </div>
+                <div class="button">
+                    <!-- <a href="checkout.html"
+                        class="btn animate">Checkout</a> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

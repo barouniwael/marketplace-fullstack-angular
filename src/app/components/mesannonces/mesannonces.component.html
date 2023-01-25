@@ -1,0 +1,30 @@
+
+<div class="container mt-4">
+    <table>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>price</th>
+          <th>category</th>
+          <th>date</th>
+        
+          <th>actions</th>
+        </tr>
+        <tbody>
+            <tr *ngFor="let myproducts of myproducts">
+                <th>{{myproducts.pId}}</th>
+                <th>{{myproducts.name}}</th>
+                <th>{{myproducts.price}}</th>
+                <th>{{myproducts.category}}</th>
+                <th><a (click)="goToSingleProduct(order.id)">{{myproducts.time}}</a></th>
+               
+                <th style="width: 400px;">
+                    <button class="btn btn-success nn " (click)="goToSingleProduct(myproducts.pId)">display</button>
+                    <button class="btn btn-primary nn" (click)="editProduct(myproducts.pId)">edit</button>
+                    <button class="btn btn-danger" (click)="deleteMyproduct(myproducts.pId)">delete</button>
+                
+                </th>
+            </tr>
+        </tbody>
+      </table>
+    </div>

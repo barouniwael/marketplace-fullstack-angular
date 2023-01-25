@@ -1,0 +1,51 @@
+<div class="account-login section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 offset-lg-3 col-md-10 offset-md-1 col-12
+                mx-auto">
+                <form class="card login-form" [formGroup]="productForm">
+                    <div class="card-body">
+                        <div class="title">
+                            <h3>{{title}}</h3>
+
+                        </div>
+
+                        <div class="form-group input-group">
+                            <label for="reg-fn">name</label>
+                            <input class="form-control" type="text"
+                                id="reg-email" required formControlName="name" [(ngModel)]="product.name">
+                        </div>
+                        <div class="form-group input-group">
+                            <label for="reg-fn">Price</label>
+                            <input class="form-control" type="number"
+                                id="reg-pass" required formControlName="price" [(ngModel)]="product.price">
+                        </div>
+                        <div class="form-group input-group">
+                            <label for="reg-fn">category</label>
+
+
+
+
+                            <select formControlName="category" class="form-control" [(ngModel)]="product.category">
+                                <option [ngValue]="null" disabled>Select category</option>
+                                <option *ngFor="let category of category"
+                                    [ngValue]="category">{{category}}</option>
+                            </select>
+
+
+
+
+
+                          
+                        </div>
+
+                        <div class="button">
+                            <button class="btn" type="submit" (click)="addProduct()">ADD</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

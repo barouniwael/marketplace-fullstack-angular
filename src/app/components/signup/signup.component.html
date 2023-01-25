@@ -1,0 +1,119 @@
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Registration</h1>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <ul class="breadcrumb-nav">
+                    <li><a  routerLink=""><i class="lni lni-home"></i> Home</a></li>
+                    <li>Registration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="account-login section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                <div class="register-form">
+                    <div class="title">
+                        <h3>No Account? Register</h3>
+                        <p>Registration takes less than a minute but gives you
+                            full control over your orders.</p>
+                    </div>
+                    <form class="row" [formGroup]="signupForm">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="reg-fn">First Name</label>
+                                <input class="form-control" type="text"
+                                    id="reg-fn" required   formControlName="firstName">
+                                    
+                                    <div *ngIf="signupForm.controls['firstName'].invalid && (signupForm.controls['firstName'].dirty || signupForm.controls['firstName'].touched )" >
+                                        <div *ngIf="signupForm.controls['firstName'].errors.minlength" class="error" >first Name must be longer than 3 caractere</div>
+                                      <div *ngIf="signupForm.controls['firstName'].errors.required" class="error"  >first Name is required</div>
+                                     
+                                    </div>
+                                
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="reg-ln">Last Name</label>
+                                <input class="form-control" type="text"
+                                    id="reg-ln" required  formControlName="lastName">
+                                    <div *ngIf="signupForm.controls['lastName'].invalid && (signupForm.controls['lastName'].dirty || signupForm.controls['lastName'].touched )" >
+                                        <div *ngIf="signupForm.controls['lastName'].errors.minlength" class="error" >last Name must be longer than 3 caractere</div>
+                                      <div *ngIf="signupForm.controls['lastName'].errors.required" class="error"  >last Name is required</div>
+                                      
+                                    </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="reg-email">E-mail Address</label>
+                                <input class="form-control" type="email"
+                                    id="reg-email" required  formControlName="email">
+                                    <div *ngIf="signupForm.controls['email'].invalid && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched )" >
+                                        <div *ngIf="signupForm.controls['email'].errors.email" class="error" >invalid email</div>
+                                      <div *ngIf="signupForm.controls['email'].errors.required" class="error"  >email is required</div>
+                                    </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="reg-phone">Phone Number</label>
+                                <input class="form-control" type="number"
+                                    id="reg-phone" required  formControlName="phone" >
+                                   <div *ngIf="signupForm.controls['phone'].invalid && (signupForm.controls['phone'].dirty || signupForm.controls['phone'].touched )" >
+                                        <!-- <div *ngIf="signupForm.controls['phone'].errors.minlength " class="error" >phone must be 8 caractere</div> -->
+                                        <div *ngIf="signupForm.controls['phone'].errors.minlength" class="error" >password must be longer than 6 caractere</div>
+                                        <div *ngIf="signupForm.controls['phone'].errors.required" class="error"  >phone is required</div>
+                                   </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="reg-pass">Password</label>
+                                <input class="form-control" type="password"
+                                    id="reg-pass" required  formControlName="pwd">
+                                    <div *ngIf="signupForm.controls['pwd'].invalid && (signupForm.controls['pwd'].dirty || signupForm.controls['pwd'].touched )" >
+                                        <div *ngIf="signupForm.controls['pwd'].errors.minlength" class="error" >password must be longer than 6 caractere</div>
+                                      <div *ngIf="signupForm.controls['pwd'].errors.required" class="error"  >password is required</div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="reg-pass-confirm">Adress</label>
+                                <input class="form-control" type="text"
+                                    id="reg-pass-confirm" required  formControlName="adress">
+                                    <div *ngIf="signupForm.controls['adress'].invalid && (signupForm.controls['adress'].dirty || signupForm.controls['adress'].touched )" >
+                                       
+                                      <div *ngIf="signupForm.controls['adress'].errors.required" class="error"  >adress is required</div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="button">
+                            <button class="btn" type="submit" [disabled]="!signupForm.valid" (click)="signup()" >Register</button>
+                        </div>
+                        <p class="outer-link">Already have an account? 
+                            <a routerLink="../login" >Login Now</a>
+                        </p>
+                    </form >
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

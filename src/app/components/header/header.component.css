@@ -1,0 +1,25 @@
+.nav {
+    height: 5px;
+    width: 100%;
+  
+    text-align: right;
+    align-items: center;   
+}
+.nav:hover{
+    background-color: #a49a9a;
+}
+ a{
+    text-align: right;
+    align-items: center;
+    align-content: center;
+}
+.dropdown-menu{
+    align-items: center;   
+    text-align: right;
+    align-content: center;
+}
+.n{
+    text-align: right;
+}
+
+
