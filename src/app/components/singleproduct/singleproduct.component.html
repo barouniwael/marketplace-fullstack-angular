@@ -26,15 +26,9 @@
     <div class="product-images">
     <main id="gallery">
     <div class="main-img">
-    <img src="assets/images/product-details/01.jpg" id="current" alt="#">
+    <img [src]="product.img" id="current" alt="#">
     </div>
-    <div class="images">
-    <img src="assets/images/product-details/01.jpg" class="img" alt="#">
-    <img src="assets/images/product-details/02.jpg" class="img" alt="#">
-    <img src="assets/images/product-details/03.jpg" class="img" alt="#">
-    <img src="assets/images/product-details/04.jpg" class="img" alt="#">
-    <img src="assets/images/product-details/05.jpg" class="img" alt="#">
-    </div>
+    
     </main>
     </div>
     </div>
@@ -51,7 +45,7 @@
     <div class="row align-items-end">
     <div class="col-lg-4 col-md-4 col-12">
     <div class="button cart-button">
-    <button class="btn" style="width: 100%;" (click)="reservation(product.pId)" *ngIf="!myproduct">Add to Cart</button>
+    <button class="btn" style="width: 100%;" (click)="reservation(product._id)" *ngIf="!myproduct">Add to Cart</button>
     </div>
     </div>
     <div class="col-lg-4 col-md-4 col-12">

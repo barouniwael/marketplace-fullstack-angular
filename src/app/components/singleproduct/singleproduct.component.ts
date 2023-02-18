@@ -23,9 +23,10 @@ myproduct:boolean = false;
 
   ngOnInit() {
     this.id=this.activatedroute.snapshot.paramMap.get('id');
-    console.log(this.id);
-   this.product = this.productservice.getProductsById(this.id);
-   console.log(this.product);
+ 
+   this.product = this.productservice.getProductsById(this.id).subscribe((data)=>{this.product = data.doc})
+    
+
    let route = this.activatedroute.routeConfig.path
  if (route == "myproduct/:id") {
   this.myproduct = true;
@@ -33,7 +34,10 @@ myproduct:boolean = false;
 
   }
   reservation(id){
-this.orderservice.reservation(id);
+    let productId = id;
+    let userId= JSON.parse(localStorage.getItem('user')).id;
+    let obj = {productId : productId, userId : userId};
+this.orderservice.reservation(obj).subscribe((msg)=>{alert(msg.msg)});
 
 
   }

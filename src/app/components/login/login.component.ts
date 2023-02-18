@@ -22,14 +22,13 @@ islogged:boolean ;
    
   }
 login(){
-let islogged = this.auth.authUser(this.user);
-if (islogged){
- 
-this.router.navigate([""])
-// this.islogged = true;
+this.auth.authUser(this.user);
+if (this.auth.authStatusListener) {
+  this.router.navigate(["/"])
+}
 
 }
 
 
-}
+
 }

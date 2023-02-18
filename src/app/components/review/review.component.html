@@ -46,14 +46,14 @@
                 </li>
             </ul>
 
-            <!-- <button type="button" class="btn review-btn" data-bs-toggle="modal"
+            <button type="button" class="btn review-btn" data-bs-toggle="modal"
                 data-bs-target="#commentModal" onclick="openVerticallyCentered(content)">
                 Leave a Review
-            </button>-->
-            <button type="button" class="btn review-btn" data-bs-toggle="modal" 
+            </button>
+            <!-- <button type="button" class="btn review-btn" data-bs-toggle="modal" 
        (click)="openVerticallyCentered(content)">
                 Leave a Review
-            </button>
+            </button> -->
         </div>
     </div>
     <div class="col-lg-8 col-12">
@@ -61,7 +61,7 @@
             <div class="reviews">
                 <h4 class="title">Latest Reviews</h4>
 
-                <div class="single-review" *ngFor="let review of reviews">
+                <div class="single-review" *ngFor="let review of reviews |  paginate: { itemsPerPage: 2, currentPage: p } ">
                     <img src="assets/images/blog/comment1.jpg" alt="#">
                     <div class="review-info">
                         <h4>{{review.subject}}
@@ -75,16 +75,17 @@
                             <li><i class="lni lni-star-filled"></i></li>
                             <li><i class="lni lni-star-filled"></i></li>
                         </ul>
-                        <p>{{review.comment}}</p>
+                        <p>{{review.body}}</p>
                     </div>
                 </div>
 
-
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
               
 
             </div>
         </div>
     </div>
+   
 </div>
 
 <div class="modal fade review-modal" id="commentModal" tabindex="-1"
@@ -128,7 +129,7 @@
                     </div>
                 
                 <div class="modal-footer button">
-                    <button type="submit" class="btn">Submit Review</button>
+                    <button type="submit" class="btn" >Submit Review</button>
                 </div>
             </form>
         </div>
@@ -147,7 +148,7 @@
                     aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
-                <form #commentForm="ngForm" (ngSubmit)="addComment()">
+                <form #commentForm="ngForm" (ngSubmit)="addComment()"  >
                 <div class="row">
                   
                         <div class="col-sm-6">
@@ -179,7 +180,7 @@
                     </div>
                 
                 <div class="modal-footer button">
-                    <button type="submit" class="btn">Submit Review</button>
+                    <button type="submit" class="btn" data-dismiss="modal">Submit Review</button>
                 </div>
             </form>
         </div>

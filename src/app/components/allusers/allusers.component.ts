@@ -9,31 +9,53 @@ import {MatSort, Sort} from '@angular/material/sort';
   templateUrl: './allusers.component.html',
   styleUrls: ['./allusers.component.css']
 })
-export class AllusersComponent implements OnInit,AfterViewInit {
+export class AllusersComponent implements OnInit, AfterViewInit {
   users:MatTableDataSource<any>;
 
 
-
+userstab:any;
 displayedColumns = ["username", "phone", "email", "action"];
 
-@ViewChild(MatPaginator,{static: false}) paginator: MatPaginator;
+// @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort,{static: true})sort:MatSort;
   constructor(private userservice:AuthService) { }
 
   ngOnInit() {
+this.getAllUsers()
 
-this.users = new MatTableDataSource(this.userservice.getAllusers());
+  // this.users.paginator = this.paginator;
+
 
   }
   ngAfterViewInit(): void {
-    this.users.paginator= this.paginator
-    this.users.sort= this.sort;
+    // this.users.paginator= this.paginator
+     this.users.sort= this.sort; }
+
+
+  getAllUsers(){
+
+    
+    this.userservice.getAllusers().subscribe((data)=>{
+    
+      
+      this.users = new MatTableDataSource(data.users)
+      
+    })
   }
+
  
   deleteUser(id){
-    this.userservice.deleteUser(id);
-    // const item = this.users.find(item => item.id === id);
+    this.userservice.deleteUser(id).subscribe((result)=>{
+      if (result.isDeleted) {
+        this.getAllUsers();
+        alert(result.msg)
+      } else {
+        alert(result.msg)
+      }
+    });
+    //  const item = this.users.find(item => item.id === id);
     // this.users.splice(this.users.indexOf(item),1);
   this.ngOnInit()
   }
+ 
 }

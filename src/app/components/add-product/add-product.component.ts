@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {formatDate} from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-add-product',
@@ -15,21 +16,25 @@ category = [];
 userId:any;
 title:any="Add Product";
 route:any;
-  constructor(private fb:FormBuilder, private activatedrouter:ActivatedRoute,private router:Router) { }
+imagePreview:string;
+  constructor(private fb:FormBuilder, private activatedrouter:ActivatedRoute,private router:Router,private productService:ProductsService) { }
 
   ngOnInit() {
-     this.route = this.activatedrouter.snapshot.paramMap.get("id")
+     this.route = this.activatedrouter.snapshot.paramMap.get("id");
+     this.getAllCategories() 
     if (this.route) {
-      let products = JSON.parse(localStorage.getItem("products")||"[]");
-  let index = products.findIndex((product)=>product.pId == this.route);
- this.product = products[index];
- console.log("product",this.product); 
+  this.productService.getProductsById(this.route).subscribe((data)=>{this.product=data.doc;
+  
+    
+  });
+ 
+  
  this.title="Edit product"
       
     }
-    this.category= JSON.parse(localStorage.getItem("category"||"[]"));
+   
 
-    this.userId = localStorage.getItem("userId");
+    this.userId = JSON.parse (localStorage.getItem("user")).id;
     this.productForm = this.fb.group({
       category: [''],
       name: [''],
@@ -37,41 +42,52 @@ route:any;
       time:[''],
       user:[''],
       status: [''],
+      img:[''],
     });
   }
   addProduct(){
     if (this.route) {
 
-     
-        this.route = this.activatedrouter.snapshot.paramMap.get("id");
-      let products = JSON.parse(localStorage.getItem("products")||"[]");
-
-     this.product=this.productForm.value;
-    this.product.pId= this.route;
-    this.product.time = formatDate(new Date(),'dd/MM/yyyy','en');
-    this.product.status = "pending";
-    this.product.user= this.userId;
-    let i = products.findIndex((product)=>product.pId == this.route);
-    products[i] = this.product;
-    localStorage.setItem("products",JSON.stringify(products));
-    this.router.navigate(["annonces"])
+      this.product=this.productForm.value;
+      this.product.time = formatDate(new Date(),'dd/MM/yyyy','en');
+      this.product.status = "pending";
+      this.product.user= this.userId;
+      this.product._id=this.route
+     this.productService.editProduct(this.product,this.productForm.value.img).subscribe((data)=>{alert(data.msg);
+     })
+    this.router.navigate(["/mesannonces"])
     }else{
-
-    let products = JSON.parse(localStorage.getItem("products")||"[]");
-     let productId = JSON.parse( localStorage.getItem("productId")|| "1");
-  
-
     this.product=this.productForm.value;
-    this.product.pId= productId;
     this.product.time = formatDate(new Date(),'dd/MM/yyyy','en');
     this.product.status = "pending";
     this.product.user= this.userId;
-  
-    products.push(this.product);
-    localStorage.setItem("products", JSON.stringify(products));
-    localStorage.setItem(("productId"),productId +1);
+    console.log("proform",this.productForm.value);
+  this.productService.addProduct(this.product,this.productForm.value.img).subscribe((data)=>{console.log("product data",data);
+  });
     alert("added")
-    this.productForm.reset();
+    // this.productForm.reset();
+    this.router.navigate(["mesannonces"])
     }
   }
-}
+
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    console.log(file);
+    
+    this.productForm.patchValue({img: file });
+    this.productForm.updateValueAndValidity();
+ console.log("proform",this.productForm.value);
+ 
+    const reader = new FileReader();
+    
+    reader.onload = () => {
+      this.imagePreview = reader.result as string
+     
+    };
+    reader.readAsDataURL(file);
+  }
+  getAllCategories(){
+    this.productService.getAllCategories().subscribe((data)=>{this.category= data.categories});
+    }
+  }
+

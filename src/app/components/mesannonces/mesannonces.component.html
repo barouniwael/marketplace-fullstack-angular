@@ -12,16 +12,20 @@
         </tr>
         <tbody>
             <tr *ngFor="let myproducts of myproducts">
-                <th>{{myproducts.pId}}</th>
+                <th>{{myproducts._id
+                }}</th>
                 <th>{{myproducts.name}}</th>
                 <th>{{myproducts.price}}</th>
                 <th>{{myproducts.category}}</th>
                 <th><a (click)="goToSingleProduct(order.id)">{{myproducts.time}}</a></th>
                
                 <th style="width: 400px;">
-                    <button class="btn btn-success nn " (click)="goToSingleProduct(myproducts.pId)">display</button>
-                    <button class="btn btn-primary nn" (click)="editProduct(myproducts.pId)">edit</button>
-                    <button class="btn btn-danger" (click)="deleteMyproduct(myproducts.pId)">delete</button>
+                    <button class="btn btn-success nn " (click)="goToSingleProduct(myproducts._id
+                    )">display</button>
+                    <button class="btn btn-primary nn" (click)="editProduct(myproducts._id
+                    )">edit</button>
+                    <button class="btn btn-danger" (click)="deleteMyproduct(myproducts._id
+                    )">delete</button>
                 
                 </th>
             </tr>

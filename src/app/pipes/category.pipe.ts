@@ -6,8 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CategoryPipe implements PipeTransform {
 
   transform(items: any[], term: any): any {
-  if (term == "all category"){return items}
-    return items.filter(item => item.category.indexOf(term) !== -1);
+  if (term == "all category" || term == ""){return items}
+     return items.filter(item => item.category == term);
+
+   
   }}
 
 

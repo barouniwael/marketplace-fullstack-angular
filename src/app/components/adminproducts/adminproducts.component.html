@@ -85,9 +85,9 @@
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef>action</mat-header-cell>
           <mat-cell class="duration-cell"   *matCellDef="let product">
-            <button mat-icon-button type="button" class="btn btn-danger " style="display: block; " (click)="deleteproduct(product.pId)">
+            <button mat-icon-button type="button" class="btn btn-danger " style="display: block; " (click)="deleteproduct(product._id)">
                    delete
-                    </button>  <button mat-icon-button type="button" class="btn btn-info m-3 " style="display: block; " (click)="allowProduct(product.pId)">
+                    </button>  <button mat-icon-button type="button" class="btn btn-info m-3 " style="display: block; " (click)="allowProduct(product._id)">
                    allow
                     </button>
                   </mat-cell>

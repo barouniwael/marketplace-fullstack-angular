@@ -70,7 +70,7 @@
         <mat-header-cell *matHeaderCellDef>action</mat-header-cell>
         <mat-cell class="duration-cell"
                   *matCellDef="let user"><button type="button" class="btn btn-danger " style="display: block;
-                " (click)="deleteUser(user.id)">
+                " (click)="deleteUser(user._id)">
                     delete
                   </button></mat-cell>
     </ng-container>
@@ -80,6 +80,6 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
 </mat-table>
-<mat-paginator [pageSizeOptions]="[3]" showFirstLastButtons #paginator></mat-paginator>
-<!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons #paginator></mat-paginator>
+<pagination-controls (pageChange)="p = $event"></pagination-controls> 
   </div>

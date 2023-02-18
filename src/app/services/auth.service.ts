@@ -1,95 +1,106 @@
-import { Injectable, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
+import { Injectable, Output } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Subject } from 'rxjs';
-
-
+import { Subject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
+  url: string = "http://127.0.0.1:3000";
+  public authStatusListener = new Subject<boolean>();
+  private authisadmin = new Subject<boolean>();
+  private userObj = new Subject<any>();
 
- public authStatusListener = new Subject<boolean>();  
-  private authisadmin= new Subject<boolean>();  
-  private userObj= new Subject<any>();  
-  constructor(private router:Router) { }
+token:any;
+expireIn:any;
+tokenTimer:any;
 
-
+  constructor(private router: Router, private http: HttpClient) {}
 
   //  isAdmin:any;
 
-
   connectedId: string;
   ngOnInit() {
-    }   
-    
-    getAuthStatusListener() {  
-      return this.authStatusListener.asObservable();  
-      
-    }  
-    getAdminStatusListener()
-{
-  return this.authisadmin.asObservable(); 
-}
-getUserObjListener()
-{
-  return this.userObj.asObservable(); 
-}
-
-  authUser(user:any){
-    let users = JSON.parse(localStorage.getItem('users' || "[]"));
-    let u=users.find((u)=> u.phone == user.phone && u.pwd == user.pwd)
-// localStorage.setItem('isAdmin', JSON.stringify(u.isAdmin));
    
-if ( u){
-   localStorage.setItem('userId', u.id)
-   
- 
-    this.authStatusListener.next(true);  
-    this.userObj.next(u);  
-     if (u.isAdmin) {
-      this.authisadmin.next(true);  
-    }
- 
-localStorage.setItem("user",JSON.stringify(u));
- 
-
-  this.router.navigate(['']);
-}else{
-alert("phone or passsword is incorrect")
-   return false;
-  
-}
 
   }
-logout(){
-  localStorage.removeItem('userId');
-  localStorage.removeItem('user');
-  // this.islogged= false;
-  this.router.navigate(['']);
-  this.authStatusListener.next(false);  
-  this.authisadmin.next(false);  
 
-  
-}
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
+  }
+  getAdminStatusListener() {
+    return this.authisadmin.asObservable();
+  }
+  getUserObjListener() {
+    return this.userObj.asObservable();
+  }
 
-searchUserById(id){
-  let users = JSON.parse(localStorage.getItem('users') || "[]");
-  let user=users.find(u=> u.id == id);
-  return user;
-}
+  authUser(user: any) {
+    return this.http
+      .post<{ msg: string; user: any ,token:any,expireIn:any}>(this.url + "/login", user)
+      .subscribe((data) => {
+        this.authStatusListener.next(true);
+    
+        if (data.user.isAdmin) {
+          this.authisadmin.next(true);
+        }
+        this.token = data.token;
+      
+        if (this.token) {
+          const expiresInDuration = data.expireIn;
+          this.setAuthTimer(expiresInDuration);
+          this.authStatusListener.next(true);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+        this.userObj.next(data.user);
+        }
+      });
+  }
 
-getAllusers(){
-let users= JSON.parse(localStorage.getItem('users')|| "[]");
+  getToken() {
+    return this.token;
+  }
 
-return users
-}
+  private setAuthTimer(duration: number) {
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
+  }
 
-deleteUser(id){
-  let users = JSON.parse(localStorage.getItem('users')||"[]");
-  let index = users.indexOf(user => user.pId==id);
-  users.splice(index,1);
-  localStorage.setItem('users',JSON.stringify(users));
-}
+
+  logout() {
+
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    this.authStatusListener.next(false);
+    this.authisadmin.next(false);
+    this.userObj.next();
+    this.token = null;
+    clearTimeout(this.tokenTimer);
+    this.router.navigate([""]);
+
+  }
+
+  searchUserById(id) {
+    let users = JSON.parse(localStorage.getItem("users") || "[]");
+    let user = users.find((u) => u.id == id);
+    return user;
+  }
+
+  getAllusers() {
+  return this.http.get<{users:any}>(this.url+"/getusers")
+  }
+
+  deleteUser(id) {
+  return this.http.delete<{msg:string,isDeleted:boolean}>(`${this.url}/deleteuser/${id}`);
+  }
+
+  signup(user) {
+    return this.http.post<{ msg: string; doc: any }>(
+      this.url + "/signup",
+      user
+    );
+  }
 }

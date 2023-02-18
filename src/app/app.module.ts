@@ -37,8 +37,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, 
   MatSortModule, MatTableModule } from "@angular/material";
   import {MatIconModule} from '@angular/material/icon';
+  import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HeaderInterceptor } from './services/auth.interceptor';
+import { errorInterceptor } from './services/error.interceptor';
+
 @NgModule({
   declarations: [
+    
     AppComponent,
     HomeComponent,
     HeaderComponent,
@@ -72,7 +77,8 @@ import { MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
     AllusersComponent,
  
     ProductcardComponent,
- 
+   
+   
    
   ],
   imports: [
@@ -90,9 +96,16 @@ import { MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
         MatPaginatorModule,
         MatSortModule,
         MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule,
+  
+
+   
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass:  HeaderInterceptor , multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass:  errorInterceptor , multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

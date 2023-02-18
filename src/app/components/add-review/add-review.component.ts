@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-add-review',
@@ -9,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AddReviewComponent implements OnInit {
 
-  constructor(private activatedroute:ActivatedRoute) { }
+  constructor(private activatedroute:ActivatedRoute, private messageService:MessageService) { }
  messageForm:FormGroup;
 message:any={};
 
@@ -22,22 +23,16 @@ message:any={};
   
   }
   addMessage(){
-    let pId= this.activatedroute.snapshot.paramMap.get('id');
-    let messages = JSON.parse(localStorage.getItem('messages')||"[]");
-this.message.pId = pId;
-let products = JSON.parse(localStorage.getItem('products')||"[]");
-let targetId ;
-for (let i = 0; i < products.length; i++) {
-  if (products[i].pId == pId) {
-    targetId = products[i].user;
-  }
-  
-}
-this.message.targetId = targetId;
-let userId=localStorage.getItem("userId")
-this.message.userId=userId;
- messages.push(this.message);
-localStorage.setItem('messages', JSON.stringify(messages));
+    let productId= this.activatedroute.snapshot.paramMap.get('id');
+    
+let userId= JSON.parse (localStorage.getItem("user")).id
+this.message.productId= productId;
+this.message.senderId= userId;
+
+this.messageService.postMessage(this.message).subscribe((message)=>{
+  alert(message.msg);
+});
+
 
   }
 

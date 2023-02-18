@@ -17,8 +17,8 @@
                     <a href="javascript:void(0)"
                         class="remove"
                         title="Remove this
-                        item"><i class="lni
-                            lni-close"></i></a>
+                        item" (click)="deleteOrder(item._id)"><i class="lni
+                            lni-close" ></i></a>
                     <div class="cart-img-head">
                         <a class="cart-img"><img
                                 src="assets/images/header/cart-items/item1.jpg"
@@ -26,12 +26,12 @@
                     </div>
                     <div class="content">
                         <h4><a
-                               routerLink="goToSingleProduct(id)">
-                              {{item.name}}
-                                </a></h4>
+                                routerLink="goToSingleProduct(id)">
+                                {{item.orders[0].name}}
+                            </a></h4>
                         <p class="quantity">
                             <span
-                                class="amount">  {{item.price}}</span></p>
+                                class="amount"> {{item.orders[0].price}}</span></p>
                     </div>
                 </li>
 

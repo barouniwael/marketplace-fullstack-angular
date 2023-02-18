@@ -1,3 +1,19 @@
 a:hover {
     cursor: pointer;
   }
+
+.product-image{
+  height: 300px;
+  display: flex;
+  object-fit: contain;
+}
+img{
+  /* height: 100%; */
+  /* width: auto; */
+  width: auto;
+  height: 100%;
+  object-fit:cover ; 
+} 
+.single-product {
+  align-self: auto;
+}

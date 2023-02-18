@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-add-category',
@@ -7,21 +8,16 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./add-category.component.css']
 })
 export class AddCategoryComponent implements OnInit {
+category:any={};
+  constructor(private productService:ProductsService) { }
 
-  constructor() { }
-category:any;
 
 catForm :FormGroup;
   ngOnInit() {
   }
   addCategory(){
 
-let category= JSON.parse(localStorage.getItem('category')|| "[]");
- category.push(this.category);
- localStorage.setItem('category',JSON.stringify(category));
+this.productService.addCategory(this.category).subscribe(data => alert("category added"));
 
-  
- alert('category added')
- this.category="";
   }
 }

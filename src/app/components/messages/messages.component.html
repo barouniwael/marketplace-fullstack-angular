@@ -10,9 +10,9 @@
     </tr>
     <tbody>
         <tr *ngFor="let message of messages">
-            <th style="width: 120px;">{{message.userName}}</th>
-            <th style="width: 120px;"> <a  (click)="goToSingleProduct(message.pId)"  style="cursor: pointer;">{{message.name}}</a></th>
-            <th  style="width: 120px;"><a (click)="goToSingleProduct(order.id)">{{message.phone}}</a></th>
+            <th style="width: 120px;">{{message.user[0].firstName}}</th>
+            <th style="width: 120px;"> <a  (click)="goToSingleProduct(message.pId)"  style="cursor: pointer;">{{message.products[0].name}}</a></th>
+            <th  style="width: 120px;"><a (click)="goToSingleProduct(order.id)">{{message.user[0].phone}}</a></th>
             <th>{{message.message}}</th>
            
             <th style="width: 50px;"><button class="btn btn-danger" (click)="deleteMessage(message.targetId)">delete</button></th>

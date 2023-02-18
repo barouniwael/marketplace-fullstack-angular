@@ -15,23 +15,25 @@ export class HomeComponent implements OnInit {
 search: any;
 term:any;
 status:any;
-  constructor(private auth:AuthService, private router:Router,private orderservice:OrdersService,private filtreservice:FiltreService) { 
+  constructor(private auth:AuthService, private router:Router,private orderService:OrdersService,private filtreservice:FiltreService,private productService:ProductsService) { 
  
   }
 products:any=[
 ]
 order:any={};
   ngOnInit() {
-  let products= JSON.parse(localStorage.getItem('products')||"[]");
-this.products=products.slice(-6);
+this.productService.homeProduct().subscribe(data=> this.products = data.doc)
    
   }
   goToSingleProduct(id){
   this.router.navigate([`single-product/${id}`])
   }
   reservation(id){
- 
-this.orderservice.reservation(id);
+    let productId = id;
+    let userId= JSON.parse(localStorage.getItem('user')).id;
+    let obj = {productId : productId, userId : userId};
+this.orderService.reservation(obj).subscribe((msg)=>{alert(msg.msg)});
+
   }
 
 }

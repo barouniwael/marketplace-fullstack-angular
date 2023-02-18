@@ -10,12 +10,12 @@
         </tr>
         <tbody>
             <tr *ngFor="let order of orders">
-                <th>{{order.id}}</th>
-                <th>{{order.name}}</th>
-                <th><a (click)="goToSingleProduct(order.pId)">{{order.product}}</a></th>
-                <th>{{order.phone}}</th>
-                <th><button class="btn btn-danger" (click)="deleteOrder(order.id)">delete</button></th>
+                <th>{{order._id}}</th>
+                <th>{{order.user[0].firstName}} {{order.user[0].lastName}}</th>
+                <th><a (click)="goToSingleProduct(order.products[0]._id)">{{order.products[0].name}}</a></th>
+                <th>{{order.user[0].phone}}</th>
+                <th><button class="btn btn-danger" (click)="deleteOrder(order._id)">delete</button></th>
             </tr>
         </tbody>
       </table>
-    </div>
+ </div>

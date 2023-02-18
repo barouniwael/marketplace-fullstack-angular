@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
+import { ProductsService } from 'src/app/services/products.service';
 
 
 
@@ -19,8 +20,8 @@ import { SearchService } from 'src/app/services/search.service';
 export class HeaderComponent implements OnInit, OnDestroy {
 isloggedIn$: Observable<boolean>;
 // isAdmin:boolean;
-loggedId:any;
-connectedId:any;
+// loggedId:any;
+// connectedId:any;
 user:any;
 usersuscription: Subscription;
 search:string
@@ -30,8 +31,9 @@ private authListenerSubs: Subscription;
 public userIsAuthenticated:boolean  ; 
  private adminListenerSubs: Subscription;  
 public authisadmin:boolean ;  
-  constructor(private router:Router,private auth:AuthService, private filtreservice:FiltreService, private searchservice:SearchService) {
- this.userIsAuthenticated =  !!localStorage.getItem('userId');
+  constructor(private router:Router,private auth:AuthService, private filtreservice:FiltreService, private searchservice:SearchService,private productService:ProductsService) {
+ this.userIsAuthenticated 
+//  =  !!localStorage.getItem('user');
 // this.userIsAdmin =  !!localStorage.getItem('userId');
 
 }
@@ -43,25 +45,22 @@ public authisadmin:boolean ;
         this.authisadmin = isAdmin} )
         this.user = this.auth.getUserObjListener().subscribe(user=>{ 
         this.user = user} )
-        console.log(this.authisadmin);
-        console.log(this.userIsAuthenticated) ; 
-        console.log(this.user) ; 
-
-this.category = JSON.parse(localStorage.getItem('category')|| "[]");
 
 
+this.productService.getAllCategories().subscribe((data)=>{
+  this.category= data.categories});
+ 
 
-
-let users = JSON.parse( localStorage.getItem("users")||"[]");
-let userId = JSON.parse( localStorage.getItem("userId"));
-
-  
-
-let user = JSON.parse( localStorage.getItem("user"));
-console.log("user",user);
-
-this.user = user;
-this.authisadmin = user.isAdmin;
+  let user = JSON.parse (localStorage.getItem("user"));
+  if (user) {
+    this.user=user;
+    this.userIsAuthenticated = true;
+      if (user.isAdmin) {
+        this.authisadmin=true;
+      }
+    
+     
+  }
 
 // this.isAdmin = user.isAdmin
 

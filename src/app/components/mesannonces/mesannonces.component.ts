@@ -9,20 +9,32 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class MesannoncesComponent implements OnInit {
 myproducts:any ;
-  constructor(private productservice:ProductsService,private router:Router) { }
+  constructor(private productservice:ProductsService,private router:Router,private productService:ProductsService) { }
 
   ngOnInit() {
-    let id = localStorage.getItem('userId');
-    this.myproducts = this.productservice.getmyProducts(id);
-    console.log("myproducts",this.myproducts);
+    let user =JSON.parse (localStorage.getItem('user'));
+   this.productservice.getmyProducts(user).subscribe((data)=>{
+this.myproducts=data.products;
+// console.log((data.products));
+
+    
+   });
+      
+
+  
   }
+
+
   goToSingleProduct(id){
     this.router.navigate([`myproduct/${id}`])
 }
 deleteMyproduct(id){
-  this.productservice.deleteMyproduct(id);
-  const item = this.myproducts.find(item => item.id === id);
-  this.myproducts.splice(this.myproducts.indexOf(item),1);
+this.productService.deleteMyproduct(id).subscribe((message=>{
+  alert(message.msg)
+  const item = this.myproducts.find(item => item._id === id);
+   this.myproducts.splice(this.myproducts.indexOf(item),1);
+
+}))
 }
 editProduct(id){
 this.router.navigate([`addproduct/${id}`])

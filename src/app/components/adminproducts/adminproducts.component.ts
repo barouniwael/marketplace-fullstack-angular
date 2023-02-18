@@ -8,7 +8,7 @@ import { ProductsService } from 'src/app/services/products.service';
   templateUrl: './adminproducts.component.html',
   styleUrls: ['./adminproducts.component.css']
 })
-export class AdminproductsComponent implements OnInit,AfterViewInit {
+export class AdminproductsComponent implements OnInit {
 products:any;
 term:any;
 displayedColumns = ["name", "category", "price","date","status", "action"];
@@ -16,17 +16,30 @@ displayedColumns = ["name", "category", "price","date","status", "action"];
   constructor(private productservice:ProductsService) { }
 
   ngOnInit() {
-let products =   JSON.parse(localStorage.getItem("products")||"[]");
-this.products = products.reverse();
+  
+    this.getAllProducts();
+
   }
-  ngAfterViewInit(): void {
+  // ngAfterViewInit(): void {
    
-    this.products.sort= this.sort;
+  //   this.products.sort= this.sort;
+  // }
+  getAllProducts(){
+    this.productservice.getAdminTabProduct().subscribe((products)=>{
+      this.products = products.products.reverse();
+      console.log(products);
+      
+    
+    })
   }
   deleteproduct(id){
-    this.productservice.deleteMyproduct(id);
-    let item = this.products.find(item => item.pId === id);
+    this.productservice.deleteMyproduct(id).subscribe((res)=>{
+      // this.getAllProducts();
+      let item = this.products.find(item => item._id === id);
     this.products.splice(this.products.indexOf(item),1);
+      
+      alert(res.msg)});
+    
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -34,14 +47,13 @@ this.products = products.reverse();
     console.log(this.term)
 }
 allowProduct(id){
-  let products =   JSON.parse(localStorage.getItem("products")||"[]");
-  for (let i = 0; i < products.length; i++) {
-   if (products[i].pId === id) {products[i].status = "enabled";
+  let newobj = {id:id}
+  this.productservice.allowProduct(newobj).subscribe((status)=>{
+    this.getAllProducts();
+    alert(status)
+  });
+
     
-   }
-    
-  }
-  localStorage.setItem("products",JSON.stringify(products));
-  this.ngOnInit();
+
 }
 }

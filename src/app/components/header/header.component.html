@@ -94,7 +94,7 @@
                                     <select id="select1" data-value="item"
                                         (change)="selectOption($event.target.value)">
                                         <option *ngFor="let item of category"
-                                            [ngValue]="item">{{item}}</option>
+                                            [ngValue]="item">{{item.category}}</option>
                                     </select>
 
                                 </div>
@@ -124,7 +124,7 @@
                                 <span>+216 93 377 290</span>
                             </h3>
                         </div>
-                        <app-cart></app-cart>
+                        <app-cart *ngIf="userIsAuthenticated" ></app-cart>
                     </div>
                 </div>
             </div>
@@ -170,12 +170,12 @@
                                         routerLinkActive="active">All product</a>
                                 </li> 
                                 <li class="nav-item">
-                                    <a routerLink="add-product"
+                                    <a routerLink="addproduct"
                                         *ngIf="userIsAuthenticated"
                                         routerLinkActive="active">add product</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a routerLink="annonces"
+                                    <a routerLink="mesannonces"
                                         routerLinkActive="active"
                                         *ngIf="userIsAuthenticated ">mes
                                         annonces</a>

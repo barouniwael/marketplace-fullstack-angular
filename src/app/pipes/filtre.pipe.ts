@@ -5,9 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FiltrePipe implements PipeTransform {
 
-  transform(items: any[], term: any): any {
-    if (!term){return items}
-      return items.filter(item => item.name.toLocaleLowerCase().indexOf(term.toLowerCase()) !== -1);
+  transform(products: any[], term: any): any {
+    if (!term){return products}
+      return products.filter(item => item.name.toLocaleLowerCase().indexOf(term.toLowerCase()) !== -1);
   }
 
 }

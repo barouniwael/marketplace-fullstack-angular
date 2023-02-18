@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-review',
@@ -14,45 +15,43 @@ reviews:any=[];
 comment:any={};
 commentForm:FormGroup;
 pId:any;
+p:number=1;
 
-  constructor(private activatedroute:ActivatedRoute,private auth:AuthService,private modalService: NgbModal) { }
+
+
+  constructor(private activatedroute:ActivatedRoute,private auth:AuthService,private modalService: NgbModal,private commentService:CommentService) { }
 product:any;
   ngOnInit() {
     
+    this.getComment();
 
-  //   let userId =JSON.parse(localStorage.getItem('userId'));
-  //   let user = this.auth.searchUserById(userId);
-  //  let  username = user.firstName + ' ' + user.lastName;
-  
-let reviews = JSON.parse(localStorage.getItem('review')||"[]");
-this.pId= this.activatedroute.snapshot.paramMap.get("id");
-for (let i = 0; i < reviews.length; i++) {
- if (reviews[i].pId ==  this.pId ) {
-
-  this.reviews.push(reviews[i]);
 
   
  }
  
-  
-}
-console.log(this.reviews)
-  }
+
 addComment(){
+this.comment.productId= this.activatedroute.snapshot.paramMap.get("id");
+console.log(this.comment);
+
+this.commentService.addComment(this.comment).subscribe((data) => {
+alert(data.msg);
 
 
-let pId= this.activatedroute.snapshot.paramMap.get("id");
- this.comment.pId = this.pId;
- let userId =JSON.parse(localStorage.getItem('userId'));
- this.comment.userId=userId;
 
-let review= JSON.parse(localStorage.getItem('review')||"[]");
-review.push(this.comment);
- localStorage.setItem('review', JSON.stringify(review));
-this.modalService.dismissAll();
+})
  }
  openVerticallyCentered(content) {
   this.modalService.open(content, { centered: true });
   
+}
+
+getComment(){
+  let id = this.activatedroute.snapshot.paramMap.get("id")
+  console.log(id);
+  this.commentService.getComment(id).subscribe((comments)=>{
+    this.reviews = comments.comments
+    console.log(this.reviews); 
+  })
 }
 }

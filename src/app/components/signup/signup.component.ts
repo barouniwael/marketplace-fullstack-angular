@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { exist } from 'src/app/exist';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,7 @@ import { exist } from 'src/app/exist';
 export class SignupComponent implements OnInit {
   signupForm:FormGroup;
   disabled=true;
-  constructor(private formbuilder:FormBuilder, private activatedroute:ActivatedRoute) { }
+  constructor(private formbuilder:FormBuilder, private activatedroute:ActivatedRoute,private authService:AuthService) { }
 
   ngOnInit() {
     let users= JSON.parse(localStorage.getItem('users') || '[]'); 
@@ -29,19 +30,15 @@ export class SignupComponent implements OnInit {
     })
   }
   signup(){
-    let user:any;
-    var signupId = JSON.parse(localStorage.getItem("signupId")||"1");
-    user = this.signupForm.value;
-    let users= JSON.parse(localStorage.getItem('users') || '[]'); 
-    user.id= signupId ;
+   
+  let   user = this.signupForm.value;
     if( this.activatedroute.routeConfig.path == "addadmin"){
       user.isAdmin = true;
     }
-    users.push(user);
+  this.authService.signup(user).subscribe((data) =>{
+    console.log("signupretuen",data);
     
-     localStorage.setItem('users', JSON.stringify(users)) ; 
-    localStorage.setItem('signupId', signupId + 1);
-    alert("user added successfully")
+  });
     this.signupForm.reset();
    
    
